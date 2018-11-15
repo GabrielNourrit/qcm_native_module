@@ -2,7 +2,7 @@
 
 include 'db.php';
 
-
+if(isset($_POST['token'])){
 	setcookie('nbmax',$NB);
 
 if(!isset($_COOKIE['keydone'])){

@@ -1,7 +1,11 @@
 $("#start-qcm").click(function(){
-
 		call_db();
+});
 
+$("#reinit").click(function(){
+$.post('src/reinit.php',{token:1}, function (data){
+	location.reload();
+});
 });
 
 
