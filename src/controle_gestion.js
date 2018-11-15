@@ -1,6 +1,6 @@
 $("#start-qcm").click(function(){
 
-call_db();
+		call_db();
 
 });
 
@@ -18,6 +18,7 @@ $.post('src/server.php',{token:1}, function (data) {
 	else{
         $("#qcm").html(create_ask(JSON));
     }
+		maj_progress_bar();
     });
 }
 
@@ -64,6 +65,18 @@ function tester(detail){
 	$("#submit").text("Suivant");
 	$("#submit")[0].onclick="";
 	$("#submit").click(function(){
+		maj_progress_bar();
 		call_db();
-	});
+    });
+	};
+
+function maj_progress_bar(){
+	$.post('src/pourcent.php',{token:1}, function (data) {
+		var prog = $.parseJSON(data);
+		if(prog!=="0%"){
+		$("#progression").attr("aria-valuenow",prog);
+		$("#progression").attr("style","width:"+prog);
+		$("#progression").text(prog);
+	}
+    });
 }
