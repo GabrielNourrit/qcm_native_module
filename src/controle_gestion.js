@@ -10,7 +10,7 @@ $.post('src/reinit.php',{token:1}, function (data){
 
 
 /************************/
-/*******FABRIQUES*********/
+/*******FABRIQUES********/
 /************************/
 
 //fonction qui demande au serveur des données pour faire un formulaire
@@ -34,11 +34,14 @@ function fin_qcm(){
 function create_ask(JSON){
 var ask = "";
 var i = 0;
+//la justif
+Cookies.set('justif', JSON.justification.replace("'","&apos;"));
 
 //la question
  ask = "<h4>"+JSON.question+"</h4>"+
 	'<ul class="demo-list-item mdl-list">';
 //remplissage des propositions
+if(JSON.type=="assert"){
 	for(var p of JSON.propositions){
   	ask+='<li class="mdl-list__item">'+
 	'<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-'+i+'">'+
@@ -50,10 +53,19 @@ var i = 0;
 	'</li>';
 	i++;
 	}
+	ask+='</ul>';
+}else{
+	ask+='<div class="mdl-textfield mdl-js-textfield">'+
+	'<textarea class="mdl-textfield__input" type="text" rows= "3" id="story" name="story"'+
+ '       rows="5" cols="33" placeholder="Réponse...">'+
+'</textarea>'+
+'</div>';
+}
+	var reponse;
+	(JSON.type=="assert")? reponse = JSON.reponse : reponse = -1;
 	//puis alert et toggle check + bouton next
-	ask+='</ul>'+
-	'<div class="alert d-none" role="alert"></div>'+
-	'<button id="submit" onclick=\'tester("'+JSON.justification.replace("'","&apos;")+'")\' class="mdl-button mdl-button--raised mdl-button--colored" style="float:right;">'+
+	ask+='<div class="alert d-none" role="alert"></div>'+
+	'<button id="submit" onclick=\'tester('+reponse+')\' class="mdl-button mdl-button--raised mdl-button--colored" style="float:right;">'+
   	'Tester'+
 	'</button>';
 
@@ -61,10 +73,22 @@ var i = 0;
 }
 
 //fonction qui affiche les notifications
-function tester(detail){
-	$('input[name=boisson]:checked').val();
+function tester(reponse){
+	var detail = Cookies.get('justif');
+	//verification & fixation couleur bulle
+	var color;
+	if(reponse==-1)
+		color = "alert-primary";
+	else{
+		if($('input:checked').val() == reponse)
+			color = "alert-success";
+		else
+			color= "alert-danger";
+	}
+
+	
 	$(".alert").toggleClass("d-none");
-	$(".alert").toggleClass("alert-primary");
+	$(".alert").toggleClass(color);
 	$(".alert").append(detail);
 	$("#submit").text("Suivant");
 	$("#submit")[0].onclick="";
