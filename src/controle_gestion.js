@@ -108,3 +108,9 @@ function maj_progress_bar(){
 	}
     });
 }
+
+$("#save").click(function(){
+		$.post('src/save.php',{token:1}, function (v) {
+		$("#savekey").text(v);
+    });
+});
