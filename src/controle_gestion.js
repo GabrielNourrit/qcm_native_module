@@ -87,9 +87,9 @@ function tester(reponse){
 	}
 
 	
-	$(".alert").toggleClass("d-none");
-	$(".alert").toggleClass(color);
-	$(".alert").append(detail);
+	$("#qcm .alert").toggleClass("d-none");
+	$("#qcm .alert").toggleClass(color);
+	$("#qcm .alert").append(detail);
 	$("#submit").text("Suivant");
 	$("#submit")[0].onclick="";
 	$("#submit").click(function(){
@@ -113,4 +113,34 @@ $("#save").click(function(){
 		$.post('src/save.php',{token:1}, function (v) {
 		$("#savekey").text(v);
     });
+});
+
+$("#load").click(function(){
+	var color, detail;
+	var key = $("#loadModal .modal-body input").val();
+	$("#loadModal .modal-body .alert").removeClass("d-none");
+	if (key.length==24){
+
+		$.post('src/load.php',{token:1, clef: key}, function (v) {
+		if(v=='false') 
+		myAlert($("#loadModal .modal-body .alert"),"alert-success","alert-danger","chargement impossible : clef invalide");
+		else{
+		myAlert($("#loadModal .modal-body .alert"),"alert-danger","alert-success","chargement effectué");
+		}});
+
+	}else{
+		myAlert($("#loadModal .modal-body .alert"),"alert-success","alert-danger","chargement impossible : clef invalide");
+	}
+
+});
+
+function myAlert(sujet,remove,add,detail){
+	sujet.removeClass(remove);
+	sujet.addClass(add);
+	sujet.text(detail);
+}
+
+$('#loadModal').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+	$("#loadModal .modal-body .alert").addClass("d-none");
 });

@@ -9,7 +9,7 @@ $save = $_COOKIE["keydone"].';'.$_COOKIE["nb_traite"].';'.$_COOKIE["nbmax"];
 
 echo json_encode($r);
 }else
-	echo "rien à sauvegarder";
+	echo "0";
 }
 
 ?>
