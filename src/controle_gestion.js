@@ -27,7 +27,7 @@ $.post('src/server.php',{token:1}, function (data) {
 }
 
 function fin_qcm(){
-	return "<p>fini</p>";
+	return "<h2>Félicitation, vous êtes arrivés à la fin de ce qcm !</h2><p>n'hesitez pas à me faire un feedback sur votre experience et à bientôt ;)</p>";
 }
 
 //fonction qui permet de crée un formulaire (design)
